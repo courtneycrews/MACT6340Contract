@@ -15,7 +15,7 @@ error CourtneyCrewsNFTContract_ValueNotEqualPrice();
 error CourtneyCrewsNFTContract_WrongAvenueForThisTransaction();
 
 
-/// @custom:security-contact courtneymichelle.cc@gmail.com
+// @custom:security-contact courtneymichelle.cc@gmail.com
 contract CourtneyCrewsNFTContract is 
     ERC721, 
     ERC721Enumerable, 
