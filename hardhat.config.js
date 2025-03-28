@@ -65,7 +65,7 @@ module.exports = {
     // },
   },
   solidity: {
-    version: "0.8.20", // use an exact version here and in contract to avoid verification problems
+    version: "0.8.22", // use an exact version here and in contract to avoid verification problems
     settings: {
       optimizer: {
         enabled: false, // may cause verification problems if true

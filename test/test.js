@@ -24,13 +24,7 @@ describe("CourtneyCrewsNFTContract", async function () {
       args.royaltyArtist,
       args.royaltyBasis
     );
-    await CourtneyCrewsNFTContract.waitForDeployment(
-      args.mint_price,
-      args.max_tokens,
-      args.base_uri,
-      args.royaltyArtist,
-      args.royaltyBasis
-    );
+    await CourtneyCrewsNFTContract.waitForDeployment();
   });
 
   describe("construction and initialization", async function () {
@@ -45,13 +39,7 @@ describe("CourtneyCrewsNFTContract", async function () {
         args.royaltyArtist,
         args.royaltyBasis
       );
-      await CourtneyCrewsNFTContract.waitForDeployment(
-        args.mint_price,
-        args.max_tokens,
-        args.base_uri,
-        args.royaltyArtist,
-        args.royaltyBasis
-      );
+      await CourtneyCrewsNFTContract.waitForDeployment();
     });
 
     it("should be named CourtneyCrewsNFTContract", async function () {
@@ -122,13 +110,7 @@ describe("CourtneyCrewsNFTContract", async function () {
         args.royaltyArtist,
         args.royaltyBasis
       );
-      await CourtneyCrewsNFTContract.waitForDeployment(
-        args.mint_price,
-        args.max_tokens,
-        args.base_uri,
-        args.royaltyArtist,
-        args.royaltyBasis
-      );
+      await CourtneyCrewsNFTContract.waitForDeployment();
     });
 
     it("should be called and revert if called from low-level transaction", async function () {
@@ -155,13 +137,7 @@ describe("CourtneyCrewsNFTContract", async function () {
         args.royaltyArtist,
         args.royaltyBasis
       );
-      await CourtneyCrewsNFTContract.waitForDeployment(
-        args.mint_price,
-        args.max_tokens,
-        args.base_uri,
-        args.royaltyArtist,
-        args.royaltyBasis
-      );
+      await CourtneyCrewsNFTContract.waitForDeployment();
     });
 
     it("should be called and revert if called from low-level transaction with no data", async function () {
@@ -184,13 +160,7 @@ describe("CourtneyCrewsNFTContract", async function () {
         args.royaltyArtist,
         args.royaltyBasis
       );
-      await CourtneyCrewsNFTContract.waitForDeployment(
-        args.mint_price,
-        args.max_tokens,
-        args.base_uri,
-        args.royaltyArtist,
-        args.royaltyBasis
-      );
+      await CourtneyCrewsNFTContract.waitForDeployment();
     });
 
     it("should revert if called with no ether", async function () {
@@ -355,13 +325,7 @@ describe("CourtneyCrewsNFTContract", async function () {
         args.royaltyArtist,
         args.royaltyBasis
       );
-      await CourtneyCrewsNFTContract.waitForDeployment(
-        args.mint_price,
-        args.max_tokens,
-        args.base_uri,
-        args.royaltyArtist,
-        args.royaltyBasis
-      );
+      await CourtneyCrewsNFTContract.waitForDeployment();
     });
 
     it("getMaxSupply() should return the max number of tokens for this NFT", async function () {

@@ -29,13 +29,8 @@ async function main() {
 
   // deploy
   console.log("Deploying...");
-  await CourtneyCrewsNFTContract.waitForDeployment(
-    args.mint_price,
-    args.max_tokens,
-    args.base_uri,
-    args.royaltyArtist,
-    args.royaltyBasis
-  );
+  await CourtneyCrewsNFTContract.waitForDeployment();
+  
   console.log("Waiting for block verifications...");
   await CourtneyCrewsNFTContract.deploymentTransaction().wait(15);
   let contractAddress = await CourtneyCrewsNFTContract.getAddress();
