@@ -24,15 +24,15 @@ contract CourtneyCrewsNFTContract is
     Ownable,
     ReentrancyGuard
 {
+    // Counter for token IDs starting from 0
     uint256 private _tokenIdCounter;
     uint256 private immutable i_mint_price;
     uint256 private immutable i_max_tokens;
     string private s_base_uri;
-    string private s_token_uri_holder;
     address private immutable i_owner;
 
-    event MintingCompleted(uint tokenId, address owner);
-    event FundsDistributed(address owner, uint amount);
+    event MintingCompleted(uint256 tokenId, address owner);
+    event FundsDistributed(address owner, uint256 amount);
 
     constructor(
         uint256 _mint_price,
@@ -43,6 +43,7 @@ contract CourtneyCrewsNFTContract is
     )
         ERC721("CourtneyCrewsNFTContract", "CC")
         Ownable(msg.sender)
+        payable
     {
         i_mint_price = _mint_price;
         i_max_tokens = _max_tokens;
@@ -59,25 +60,50 @@ contract CourtneyCrewsNFTContract is
         revert CourtneyCrewsNFTContract_WrongAvenueForThisTransaction();
     }
 
+    /**
+     * @notice Mint a new NFT with specified token URI
+     * @param uri The token URI for this specific token, which can contain metadata with hidden messages
+     * @return The ID of the newly minted token
+     */
     function mintTo(
         string calldata uri
     ) public payable nonReentrant returns (uint256) {
-        uint256 tokenId = _tokenIdCounter;
-        if (tokenId >= i_max_tokens) {
+        // Check if we've reached max supply
+        if (_tokenIdCounter >= i_max_tokens) {
             revert CourtneyCrewsNFTContract_MaxSupplyReached();
         }
+        
+        // Verify correct payment
         if (msg.value != i_mint_price) {
             revert CourtneyCrewsNFTContract_ValueNotEqualPrice();
         }
-        _tokenIdCounter++;
+        
+        // Get current token ID and increment for next mint
         uint256 newItemId = _tokenIdCounter;
-         _safeMint(msg.sender, newItemId);
-         emit MintingCompleted(newItemId, msg.sender);
-         s_token_uri_holder = uri;
-         payable(i_owner).transfer(address(this).balance);
-         emit FundsDistributed(i_owner, msg.value);
-         _setTokenURI(newItemId, uri);
-         return newItemId;
+        _tokenIdCounter++;
+        
+        // Mint the token to sender
+        _safeMint(msg.sender, newItemId);
+        
+        // Set the token's URI (containing potential hidden message in metadata)
+        _setTokenURI(newItemId, uri);
+        
+        // Emit event for successful mint
+        emit MintingCompleted(newItemId, msg.sender);
+        
+        // Transfer funds to owner
+        payable(i_owner).transfer(address(this).balance);
+        emit FundsDistributed(i_owner, msg.value);
+        
+        return newItemId;
+    }
+
+    /**
+     * @dev Sets a new base URI for all tokens
+     * @param newBaseURI The new base URI
+     */
+    function setBaseURI(string memory newBaseURI) public onlyOwner {
+        s_base_uri = newBaseURI;
     }
 
     function getMaxSupply() public view returns (uint256) {
@@ -90,6 +116,10 @@ contract CourtneyCrewsNFTContract is
 
     function getBaseURI() public view returns (string memory) {
         return s_base_uri;
+    }
+
+    function getCurrentTokenCount() public view returns (uint256) {
+        return _tokenIdCounter;
     }
 
     function contractURI() public view returns (string memory) {
@@ -124,19 +154,22 @@ contract CourtneyCrewsNFTContract is
         super._increaseBalance(account, value);
     }
 
-        function tokenURI(
-            uint256 tokenId
-        ) public view override(ERC721, ERC721URIStorage) returns (string memory) {
-            _requireOwned(tokenId);
-            return s_token_uri_holder;
+    /**
+     * @dev Returns the URI for a given token ID using ERC721URIStorage implementation
+     * Each token can have its own URI with unique metadata (including hidden messages)
+     */
+    function tokenURI(
+        uint256 tokenId
+    ) public view override(ERC721, ERC721URIStorage) returns (string memory) {
+        return super.tokenURI(tokenId);
     }
 
-function supportsInterface(bytes4 interfaceId)
-    public
-    view
-    override(ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Royalty)
-    returns (bool)
-{
-    return super.supportsInterface(interfaceId);
-}
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Royalty)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
+    }
 }

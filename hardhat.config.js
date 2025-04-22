@@ -26,37 +26,36 @@ module.exports = {
     enabled: process.env.REPORT_GAS ? true : false,
     currency: 'USD',
     coinmarketcap: COINMARKETCAP_API_KEY,
-    token: 'MATIC',
+    token: 'MATIC', 
+    gasPriceApi: 'https://api.etherscan.io/api?module=proxy&action=eth_gasPrice',
     outputFile: 'gas-report.txt',
     noColors: true,
   },
-  defaultNetwork: "amoy",
+  defaultNetwork: "hardhat", // Use hardhat for testing
   networks: {
     hardhat: {
       chainId: 31337,
     },
     amoy: {
-      url: `https://rpc-amoy.polygon.technology/`,
-      accounts: [STUNT_WALLET_PRIVATE_KEY],
-      gasPrice: 25000000000, // Set to 25 Gwei as required
+      url: process.env.ALCHEMY_URL,
+      accounts: [process.env.STUNT_WALLET_PRIVATE_KEY],
       chainId: 80002,
     },
+    sepolia: {
+      url: process.env.ALCHEMY_URL,
+      accounts: [process.env.STUNT_WALLET_PRIVATE_KEY],
+      chainId: 11155111,
+    },
     polygonMainnet: {
-        url: ALCHEMY_URL,
-        accounts: [STUNT_WALLET_PRIVATE_KEY],
-        gasPrice: 35000000000,
-        chainId: 137,
+      url: process.env.ALCHEMY_URL,
+      accounts: [process.env.STUNT_WALLET_PRIVATE_KEY],
+      chainId: 137,
     },
     // lineaSepolia: {
     //     url: `https://rpc.sepolia.linea.build`,
     //     accounts: [STUNT_WALLET_PRIVATE_KEY],
     //     gasPrice: 50000000000,
     //     chainId: 59141,
-    // },
-    // etherSepolia: {
-    //   url: ALCHEMY_URL,
-    //   accounts: [STUNT_WALLET_PRIVATE_KEY],
-    //   chainId: 11155111,
     // },
     // arbitrumOneSepolia: {
     //   url: ALCHEMY_URL,

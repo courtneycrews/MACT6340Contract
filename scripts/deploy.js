@@ -24,7 +24,7 @@ async function main() {
         args.max_tokens,
         args.base_uri,
         args.royaltyArtist,
-        args.royaltyBasis
+        args.royaltyBasis,
     );
 
   // deploy
@@ -37,9 +37,7 @@ async function main() {
   console.log(`Contract deployed to ${contractAddress}`);
   // verify
   if (
-    // we are on a live testnet and have the correct api key
-    (network.config.chainId === 80002 && process.env.POLYGONSCAN_API_KEY) ||
-    (network.config.chainId === 1115511 && process.env.ETHERSCAN_API_KEY)
+    network.config.chainId === 80002 && process.env.POLYGONSCAN_API_KEY
   ) {
     console.log("Verifying...");
     await verify(contractAddress, [
